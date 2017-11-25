@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shop.mapper.loginMapper">
+	
+	<insert id="InsertUser" parameterType="com.shop.model.Users">
+		insert into Users (UserId,Password,UserName,Sex,Address,Email,Telephone,CSRQ)
+		values
+		(#{UserId},#{Password},#{UserName},#{Sex},#{Address},#{Email},#{Telephone},#{CSRQ})
+	</insert>
+	<select id="adminLogin" parameterType="com.shop.model.Admin"
+		resultType="com.shop.model.Admin">
+		select * from Admin where AdminId=#{AdminId} and Password=#{Password} 
+	</select> 
+	<select id="userLogin" parameterType="com.shop.model.Users"
+		resultType="com.shop.model.Users">
+		select * from Users where UserId=#{UserId} and Password=#{Password} 
+	</select> 
+	<select id="adminManagerInfo" parameterType="com.shop.model.Admin"
+		resultType="com.shop.model.Admin">
+		select * from Admin where grade='1' 
+	</select> 
+	<select id="userManagerInfo" parameterType="com.shop.model.Users"
+		resultType="com.shop.model.Users">
+		select * from Users 
+	</select> 
+	<select id="userMyManagerInfo" parameterType="String"
+		resultType="com.shop.model.Users">
+		select * from Users where UserId=#{_parameter}
+	</select> 
+	<delete id="deleteAdmin" parameterType="String">
+		delete Admin where AdminId=#{_parameter}
+	</delete>
+	<delete id="deleteUser" parameterType="String">
+		delete Users where UserId=#{_parameter}
+	</delete>
+	<insert id="insertAdmin" parameterType="com.shop.model.Admin">
+		insert  into Admin (AdminId,Password,Name,zcsj,remark,cjsj) values (#{AdminId},#{Password},#{Name},#{zcsj},#{remark},getdate())
+	</insert>
+	<update id="changePassword" parameterType="com.shop.model.Admin">
+		update Admin set Password=#{Password} where AdminId=#{AdminId}
+	</update>
+	<update id="changeUsersPassword" parameterType="com.shop.model.Users">
+		update Users set Password=#{Password} where UserId=#{UserId}
+	</update>
+	
+
+</mapper> 

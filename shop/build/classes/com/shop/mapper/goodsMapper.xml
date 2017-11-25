@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shop.mapper.goodsMapper">
+	
+	
+	<select id="getGoodsType" 
+		resultType="com.shop.model.GoodsType">
+		select * from GoodsType 
+	</select> 
+	<select id="getGoods" 
+		resultType="com.shop.model.Goods">
+		select * from Goods
+	</select> 
+	<select id="getSomeGoods" 
+		resultType="com.shop.model.Goods">
+		select * from Goods where TypeId=#{_parameter}
+	</select> 
+	<select id="getGoodsOrder" 
+		resultType="com.shop.model.GoodsOrder">
+		select * from GoodsOrder where ZT=1
+	</select> 
+	<select id="getGoodsOrder2" 
+		resultType="com.shop.model.GoodsOrder">
+		select * from GoodsOrder where ZT=0
+	</select> 
+	<select id="getNoMoneyGoodsOrder" parameterType="String"
+		resultType="com.shop.model.GoodsOrder">
+		select * from GoodsOrder where FKZT=0 and LXR=#{_parameter}
+	</select> 
+	<select id="getYesMoneyGoodsOrder" parameterType="String"
+		resultType="com.shop.model.GoodsOrder">
+		select * from GoodsOrder where FKZT=1 and LXR=#{_parameter}
+	</select> 
+	<insert id="insertGoodsType" parameterType="com.shop.model.GoodsType">
+		insert  into GoodsType (Type) values (#{Type})
+	</insert>
+	<insert id="insertGoods" parameterType="com.shop.model.Goods">
+		insert  into Goods (GoodsName,TypeId,GoodsNumber,Producter,Package,SalePrice,GoodsImage,sjsj) values (#{GoodsName},#{TypeId},#{GoodsNumber},#{Producter},#{Package},#{SalePrice},#{GoodsImage},getdate())
+	</insert>
+	<insert id="insertGoodsOrder" parameterType="com.shop.model.GoodsOrder">
+		insert  into GoodsOrder (DDH,SJ,ADDRESS,LXR,LXFS,money,GoodsId,GoodsName) values (#{DDH},getdate(),#{ADDRESS},#{LXR},#{LXFS},#{money},#{GoodsId},#{GoodsName})
+	</insert>
+	<insert id="insertBasket" parameterType="com.shop.model.Basket">
+		insert  into Basket (GoodsId,GoodsName,SalePrice,Number,UserId) values (#{GoodsId},#{GoodsName},#{SalePrice},#{Number},#{UserId})
+	</insert>
+	
+	<delete id="deleteGoodsType" parameterType="String">
+		delete GoodsType where Type=#{_parameter}
+	</delete>
+	<delete id="deleteGoods" parameterType="String">
+		delete Goods where GoodsNumber=#{_parameter}
+	</delete>
+	<delete id="deleteGoodsOrder" parameterType="String">
+		delete GoodsOrder where DDH=#{_parameter}
+	</delete>
+	<delete id="deleteBasket" parameterType="com.shop.model.Basket" >
+		delete Basket where UserId=#{UserId} and GoodsId=#{GoodsId}
+	</delete>
+	<select id="getLikeGoods" parameterType="String" resultType="com.shop.model.Goods">
+		select * from Goods where GoodsName LIKE '%${_parameter}%' or GoodsNumber LIKE '%${_parameter}%'
+	</select>
+	<update id="updateGoodsOrder" parameterType="String" >
+		update GoodsOrder set ZT=1 where DDH=#{_parameter}
+	</update>
+	<update id="giveMoney" parameterType="String" >
+		update GoodsOrder set FKZT=1 where DDH=#{_parameter}
+	</update>
+	<select id="getBasket" parameterType="String" resultType="com.shop.model.Basket">
+		select * from Basket where UserId=#{_parameter}
+	</select>
+	<select id="getDetailGoods" parameterType="String" resultType="com.shop.model.Goods">
+		select * from Goods where GoodsName=#{_parameter}
+	</select>
+
+	
+
+</mapper> 
